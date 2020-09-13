@@ -1,5 +1,5 @@
 # MyAPI
-Typescript ExpressAPI for personal site [React-MaterialUI](https://github.com/esarnb/React_MaterialUI)
+ ExpressAPI for personal site [React-MaterialUI](https://github.com/esarnb/React_MaterialUI)
 
 ### Technologies
 * @types/node
@@ -13,3 +13,6 @@ Typescript ExpressAPI for personal site [React-MaterialUI](https://github.com/es
 * mongoose
 * multer
 * vhost
+
+## To-do
+* Javascript conversion to typescript: add types to variables
