@@ -9,6 +9,7 @@ import config from "./config";
 // Subdomain serving files [Routers]
 import API from "./Domains/API";
 import Pics from "./Domains/Pics";
+// import ESF from "./Domains/ESF";
 
 // initializing express and middleware
 const app = express();
@@ -28,6 +29,7 @@ app.get("/", (req, res) => {
 
 app.use(vhost("api.esarnb.com", API));
 app.use(vhost("pics.esarnb.com", Pics));
+// app.use(vhost("economysf.esarnb.com", ESF));
 
 app.listen(config.port, () => {
   console.log(`App listening on port ${config.port}`.green);
