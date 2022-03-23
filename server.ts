@@ -4,14 +4,13 @@ import helmet from "helmet"; // Adds additional http headers, used in serving im
 import compression from "compression"; // Compress response bodies
 import "colors";
 
-import config from "./config";
-
 // Subdomain serving files [Routers]
-import API from "./Domains/API";
-import Pics from "./Domains/Pics";
-// import ESF from "./Domains/ESF";
+import index from "./Routers";
+// import Pics from "./Routers/Pics";
+// import Discord from "./Routers/Discord";
 
 // initializing express and middleware
+const PORT = 4242;
 const app = express();
 app.use(helmet());
 app.use(compression());
@@ -22,15 +21,12 @@ app.use((req, res, next) => {
   next();
 });
 
-// Main domain root page (api.esarnb.com and pics.esarnb.com)
-app.get("/", (req, res) => {
-  res.send(" redirect https://esarnb.com/");
-});
+app.use(index)
 
-app.use(vhost("api.esarnb.com", API));
-app.use(vhost("pics.esarnb.com", Pics));
-// app.use(vhost("economysf.esarnb.com", ESF));
+// app.use(vhost("api.esarnb.com", API));
+// app.use(vhost("pics.esarnb.com", Pics));
+// app.use(vhost("economysf.esarnb.com", Discord));
 
-app.listen(config.port, () => {
-  console.log(`App listening on port ${config.port}`.green);
+app.listen(PORT, () => {
+  console.log(`App listening on port ${PORT}`.green);
 });

@@ -3,8 +3,9 @@ import Image from "../Models/ImageModel";
 import stream from "stream";
 import multer from "multer"; // handles file uploads - multipart/form-data
 import isGif from "is-gif"; // check if a data file is a gif
-import config from "../config";
+import dotenv from "dotenv";
 
+dotenv.config();
 const app = express();
 const router = Router();
 const upload = multer();
@@ -39,7 +40,7 @@ router.get("/:name", (req, res) => {
 router.post("/", upload.single("screenshot"), (req, res) => {
   let secret = req.body.secret;
  
-  if (secret !== config.secret) return res.end("Unauthorized");
+  if (secret !== process.env.secret) return res.end("Unauthorized");
 
   let file = (req as any).file.buffer;
   let name = req.body.name;
