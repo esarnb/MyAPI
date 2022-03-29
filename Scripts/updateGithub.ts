@@ -19,7 +19,7 @@ export function updateGithub() {
             });
 
             let headers = response.headers
-            updated = headers["etag"];
+            updated = headers["etag"]; //etag id
             limit = +headers["x-ratelimit-limit"];
             remaining = +headers["x-ratelimit-remaining"];
             reset = new Date(headers["x-ratelimit-reset"]);
