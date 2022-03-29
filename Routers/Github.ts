@@ -1,19 +1,18 @@
 import { Router } from "express";
 import dotenv from "dotenv";
+import axios from "axios";
 
 dotenv.config();
 const router = Router();
 
 router.get("/", (req, res) => {
-  res.send("route /github")
-})
+  res.send("route /github");
+});
 
 router.get('/repos', async (req, res) => {
-  fetch("https://api.github.com/users/esarnb/repos?per_page=100", { 
-    headers: { "Authentication": process.env.gtoken, "User-Agent": "Sick App" }
-  }).then(x => x.json()).then(data => {
-    res.json(data);
-  });
+  let resp = await axios.get("http://localhost:4242/db/repos");
+  console.log(resp.data)
+  res.json(resp.data)
 });
 
 export default router;

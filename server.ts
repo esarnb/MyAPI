@@ -6,8 +6,12 @@ import "colors";
 
 // Subdomain serving files [Routers]
 import index from "./Routers";
-// import Pics from "./Routers/Pics";
-// import Discord from "./Routers/Discord";
+
+// import automatic polling scripts
+import { updateGithub } from "./Scripts/updateGithub";
+
+// execute scripts
+updateGithub();
 
 // initializing express and middleware
 const PORT = 4242;
@@ -21,7 +25,8 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(index)
+app.use(index);
+
 
 // app.use(vhost("api.esarnb.com", API));
 // app.use(vhost("pics.esarnb.com", Pics));

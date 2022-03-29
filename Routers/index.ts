@@ -4,6 +4,7 @@ import "colors";
 
 //API Routers
 import GithubRouter from "./Github"; 
+import DBRouter from "./DB"; 
 import CRUD from "./CRUD"; 
 // import DiscordRouter from "../Routers/Discord"; 
 // import PicsRouter from "../Routers/Pics"; 
@@ -18,6 +19,9 @@ router.use("/", CRUD);
 
 // =  =  =  =  =  =  =  =  =  =  Github  =  =  =  =  =  =  =  =  =  = //
 router.use("/github", GithubRouter); 
+
+// =  =  =  =  =  =  =  =  =  =  Database  =  =  =  =  =  =  =  =  =  = //
+router.use("/db", DBRouter); 
 
 // =  =  =  =  =  =  =  =  =  =  Discord  =  =  =  =  =  =  =  =  =  = //
 // app.use("/discord", DiscordRouter); 

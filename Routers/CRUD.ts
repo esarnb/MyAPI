@@ -5,7 +5,6 @@ dotenv.config();
 const router = Router();
 
 router.get("", (req, res) => {
-  console.log(process.env.gtoken, process.env.secret)
   res.send("Get /Main")
 });
 
