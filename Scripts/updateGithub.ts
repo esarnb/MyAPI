@@ -31,6 +31,20 @@ export function updateGithub() {
             // setup auto refresh
         } catch (err: any) {
             console.error(err.message); // 304 etag unchanged
+            
+            
+            axios.get("https://api.github.com/rate_limit", {
+                headers: {
+                    Accept: "application/vnd.github.v3+json",
+                    Authorization: au,
+                }
+            }).then((res) => {
+                // let headers = res.headers;
+                let data = res.data;
+                console.error(data.resources.core)
+            })
+
+
         }
 
     }
