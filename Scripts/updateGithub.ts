@@ -28,7 +28,7 @@ export function updateGithub() {
             
             // setup auto refresh
         } catch (err: any) {
-            console.error(err.message);
+            console.error(err.message); // 304 etag unchanged
         }
 
     }
