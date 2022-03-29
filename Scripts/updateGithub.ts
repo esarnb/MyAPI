@@ -18,6 +18,8 @@ export function updateGithub() {
                 }
             });
 
+            // etag test
+
             let headers = response.headers
             updated = headers["etag"]; //etag id
             limit = +headers["x-ratelimit-limit"];
