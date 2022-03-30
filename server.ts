@@ -2,6 +2,7 @@ import express from "express"; // Express API for serving data and files
 import vhost from "vhost"; // Handle subdomain routing
 import helmet from "helmet"; // Adds additional http headers, used in serving images
 import compression from "compression"; // Compress response bodies
+import sequelizeInit from "./Sequelize/init";
 import "colors";
 
 // Subdomain serving files [Routers]
@@ -9,6 +10,9 @@ import index from "./Routers";
 
 // import automatic polling scripts
 import { fetchGitRepo } from "./Scripts/fetchGitRepo";
+
+// init sequelize
+sequelizeInit();
 
 // execute scripts
 fetchGitRepo();

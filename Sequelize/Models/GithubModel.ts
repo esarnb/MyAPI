@@ -1,4 +1,16 @@
+import { DataTypes, Model, Optional } from 'sequelize'
+import sequelizeConnection from '../config'
+import { gitRepos } from "../../Types/gitTypes";
 
+
+class GHRepo extends Model<gitRepos> {}
+  
+  export default GHRepo.init(null, {
+    sequelize: sequelizeConnection,
+    timestamps: true,
+    paranoid: true
+  })
+  
 
 
 // import mongoose, { Schema } from "mongoose"; 
