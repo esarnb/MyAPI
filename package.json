@@ -1,5 +1,6 @@
 {
   "name": "ExpressAPI",
+  "proxy": "http://localhost:4242",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
