@@ -8,10 +8,10 @@ import "colors";
 import index from "./Routers";
 
 // import automatic polling scripts
-import { updateGithub } from "./Scripts/updateGithub";
+import { fetchGitRepo } from "./Scripts/fetchGitRepo";
 
 // execute scripts
-updateGithub();
+fetchGitRepo();
 
 // initializing express and middleware
 const PORT = 4242;
