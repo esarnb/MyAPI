@@ -10,7 +10,6 @@ export async function fetchGitRepo() {
 
     let limit:Number = 5000, remaining: Number = limit, reset: number | Date = new Date(), updated: string = "";
     let lastUpdatedGitDB: Date = await getLastRepoUpdate()
-    console.log(lastUpdatedGitDB);
     
     const fetchData = async () => {
         if (remaining !== 5000 && remaining < 2) clearInterval(githubInterval);
@@ -28,7 +27,6 @@ export async function fetchGitRepo() {
             limit = +headers["x-ratelimit-limit"];
             remaining = +headers["x-ratelimit-remaining"];
             reset = +headers["x-ratelimit-reset"];
-            console.log(limit, remaining, updated, new Date(1000 * reset).toLocaleString());
                         
             let data = response.data;
             let gitResult: gitRepos[] = data.map((record: any) => {
@@ -42,7 +40,6 @@ export async function fetchGitRepo() {
             });
             
             let changedRepos: gitRepos[] = gitResult.filter((repo: gitRepos) => {
-                console.log(lastUpdatedGitDB, repo.updated > lastUpdatedGitDB, "repo update newer than lastDBUpdate");
                 return repo.updated > lastUpdatedGitDB
             });
 
@@ -52,28 +49,15 @@ export async function fetchGitRepo() {
                 return repo;
             }));
 
-            // let updatedLangRepos: gitRepos[] = Promise.all(
-            //     changedRepos.map( async (repo: gitRepos) => {
-            //         let newObj: gitRepos = Object.assign(repo);
-            //         let langs = await getLangs(repo.language)
-            //         newObj.language = langs;
-            //         return newObj;
-            //     })
-            // )
-            
-            console.log(updatedLangRepos);
-            
             lastUpdatedGitDB = new Date();
             updateGitDB(updatedLangRepos);
             // setup auto refresh
         } catch (err: any) {
             console.error(err.message.includes("status code 304") ? "Unchanged Response" : err); // 304 etag unchanged
         }
-
     }
 
     const githubInterval = setInterval(fetchData, 6e3);
-
 }
 
 async function getLangs(langURL: string[]): Promise<string[]> {
