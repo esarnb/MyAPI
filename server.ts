@@ -26,11 +26,6 @@ app.use((req, res, next) => {
 
 app.use(index);
 
-
-// app.use(vhost("api.esarnb.com", API));
-// app.use(vhost("pics.esarnb.com", Pics));
-// app.use(vhost("economysf.esarnb.com", Discord));
-
 app.listen(PORT, () => {
   console.log(`App listening on port ${PORT}`);
 });

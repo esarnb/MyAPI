@@ -51,7 +51,6 @@ export async function fetchGitRepo() {
 
             lastUpdatedGitDB = new Date();
             updateGitDB(updatedLangRepos);
-            // setup auto refresh
         } catch (err: any) {
             console.error(err.message.includes("status code 304") ? "Unchanged Response" : err); // 304 etag unchanged
         }
