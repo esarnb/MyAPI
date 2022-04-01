@@ -1,4 +1,3 @@
-import axios from "axios";
 import GHRepo from "../Sequelize/Models/GithubModel";
 import { gitRepos } from "../Types/gitTypes";
 
