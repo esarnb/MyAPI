@@ -1,5 +1,6 @@
 import axios from "axios";
 import dotenv from "dotenv";
+import GHRepo from "../Sequelize/Models/GithubModel";
 import { updateGitDB } from "../Scripts/updateGitDB";
 import { gitRepos } from "../Types/gitTypes";
 dotenv.config();
@@ -8,7 +9,7 @@ const au = "token " + process.env.gtoken;
 export function fetchGitRepo() {
 
     let limit:Number = 5000, remaining: Number = limit, reset: number | Date = new Date(), updated: string = "";
-    let lastUpdatedGitDB: Date = new Date();
+    let lastUpdatedGitDB: Date = getLastRepoUpdate()
 
     const fetchData = async () => {
         if (remaining !== 5000 && remaining < 2) clearInterval(githubInterval);
@@ -72,4 +73,9 @@ async function getLangs(langURL: string[]): Promise<string[]> {
             reject(err);
         }
     });  
+}
+
+function getLastRepoUpdate(): Date {
+    // GHRepo.findBy
+    return new Date();
 }
