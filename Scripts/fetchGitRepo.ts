@@ -30,7 +30,7 @@ export function fetchGitRepo() {
             console.log(limit, remaining, updated, new Date(1000 * reset).toLocaleString());
                         
             let data = response.data;
-            let gitResult: gitRepos[] = data.map( async (record: any) => {
+            let gitResult: gitRepos[] = data.map((record: any) => {
                 return {
                     name: record.name, 
                     repo: record.html_url, 
@@ -40,7 +40,10 @@ export function fetchGitRepo() {
                 }
             });
             
-            let changedRepos: gitRepos[] = gitResult.filter((repo: gitRepos) => repo.updated.valueOf() > lastUpdatedGitDB.valueOf());
+            let changedRepos: gitRepos[] = gitResult.filter((repo: gitRepos) => {
+                console.log(repo.updated > lastUpdatedGitDB, "repo update newer than lastDBUpdate");
+                return repo.updated > lastUpdatedGitDB
+            });
             let updatedLangRepos: gitRepos[] = changedRepos.map( (repo: gitRepos) => {
                 getLangs(repo.language).then((res) => repo.language = res);
                 return repo;
@@ -49,7 +52,6 @@ export function fetchGitRepo() {
             
             lastUpdatedGitDB = new Date();
             updateGitDB(updatedLangRepos);
-            
             // setup auto refresh
         } catch (err: any) {
             console.error(err.message.includes("status code 304") ? "Unchanged Response" : err); // 304 etag unchanged
@@ -57,7 +59,7 @@ export function fetchGitRepo() {
 
     }
 
-    const githubInterval = setInterval(fetchData, 6e4);
+    const githubInterval = setInterval(fetchData, 6e3);
 
 }
 
@@ -66,6 +68,7 @@ async function getLangs(langURL: string[]): Promise<string[]> {
         try {
             let response = await axios.get(langURL[0], { headers: { Authorization: au } });
             let data = response.data;
+            if (!data) console.error("lang fetch failed", langURL, langURL[0])
             let filtered: string[] = data.map( (x: string[]) => Object.keys(x) );
             console.log(filtered);
             resolve(filtered);
