@@ -49,6 +49,6 @@ export function fetchGitRepo() {
 
     }
 
-    const githubInterval = setInterval(fetchData, 6e3);
+    const githubInterval = setInterval(fetchData, 6e4);
 
 }

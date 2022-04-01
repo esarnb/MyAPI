@@ -5,19 +5,19 @@ dotenv.config();
 const router = Router();
 
 router.get("", (req, res) => {
-  res.send("Get /Main")
+  res.send("Get /Main success")
 });
 
 router.post("", (req, res) => {
-  res.send("Post /Main")
+  res.send("Post /Main success")
 });
 
 router.put("", (req, res) => {
-  res.send("Put /Main")
+  res.send("Put /Main success")
 });
 
 router.delete("", (req, res) => {
-  res.send("Delete /Main")
+  res.send("Delete /Main success")
 });
 
 export default router;
