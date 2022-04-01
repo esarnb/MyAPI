@@ -44,14 +44,22 @@ export function fetchGitRepo() {
                 console.log(repo.updated > lastUpdatedGitDB, "repo update newer than lastDBUpdate");
                 return repo.updated > lastUpdatedGitDB
             });
-            let updatedLangRepos: gitRepos[] = changedRepos.map( (repo: gitRepos) => {
-                let newObj: gitRepos = Object.assign(repo);
-                getLangs(repo.language)
-                    .then((res) => {
-                        newObj.language = res // array of strings langs
-                    });
-                return newObj;
-            });
+
+            var updatedLangRepos: gitRepos[] = await Promise.all(changedRepos.map(async (repo: gitRepos): Promise<gitRepos> => {
+                let langs = await getLangs(repo.language);
+                repo.language = langs;
+                return repo;
+            }));
+
+            // let updatedLangRepos: gitRepos[] = Promise.all(
+            //     changedRepos.map( async (repo: gitRepos) => {
+            //         let newObj: gitRepos = Object.assign(repo);
+            //         let langs = await getLangs(repo.language)
+            //         newObj.language = langs;
+            //         return newObj;
+            //     })
+            // )
+            
             console.log(updatedLangRepos);
             
             lastUpdatedGitDB = new Date();
