@@ -5,7 +5,7 @@ import { gitRepos } from "../Types/gitTypes";
 import GHRepo from "../Sequelize/Models/GithubModel";
 dotenv.config();
 
-// Form new Model<gitRepos> interface
+// Form new Model<gitRepos> interface.
 interface GHRepoI<gitRepos> {};
 
 const router = Router();
