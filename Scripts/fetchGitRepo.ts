@@ -56,7 +56,7 @@ export async function fetchGitRepo() {
         }
     }
 
-    const githubInterval = setInterval(fetchData, 6e3);
+    const githubInterval = setInterval(fetchData, 6e4);
 }
 
 async function getLangs(langURL: string[]): Promise<string[]> {
