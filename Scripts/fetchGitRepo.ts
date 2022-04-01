@@ -29,18 +29,24 @@ export function fetchGitRepo() {
             console.log(limit, remaining, updated, new Date(1000 * reset).toLocaleString());
                         
             let data = response.data;
-            let gitResult: gitRepos[] = data.map((record: any) => {
+            let gitResult: gitRepos[] = data.map( async (record: any) => {
                 return {
                     name: record.name, 
                     repo: record.html_url, 
                     live: record.homepage ?? record.homepage, 
                     updated: new Date(record.pushed_at),
-                    language: [record.language]
+                    language: [record.languages_url]
                 }
             });
-            let filtered = gitResult.filter((repo: gitRepos) => repo.updated > lastUpdatedGitDB)
+            
+            let changedRepos: gitRepos[] = gitResult.filter((repo: gitRepos) => repo.updated > lastUpdatedGitDB);
+            let updatedLangRepos: gitRepos[] = changedRepos.map( (repo: gitRepos) => {
+                getLangs(repo.language).then((res) => repo.language = res);
+                return repo;
+            });
+
             lastUpdatedGitDB = new Date();
-            updateGitDB(filtered);
+            updateGitDB(updatedLangRepos);
             
             // setup auto refresh
         } catch (err: any) {
@@ -51,4 +57,19 @@ export function fetchGitRepo() {
 
     const githubInterval = setInterval(fetchData, 6e4);
 
+}
+
+async function getLangs(langURL: string[]): Promise<string[]> {
+    return new Promise( async (resolve, reject) => {
+        try {
+            let response = await axios.get(langURL[0], { headers: { Authorization: au } });
+            let data = response.data;
+            let filtered: string[] = data.map( x => Object.keys(x) );
+            console.log(filtered);
+            resolve(filtered);
+        } catch (err: any) {
+            console.error(err);
+            reject(err);
+        }
+    });  
 }
