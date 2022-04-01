@@ -40,7 +40,7 @@ export function fetchGitRepo() {
                 }
             });
             
-            let changedRepos: gitRepos[] = gitResult.filter((repo: gitRepos) => repo.updated > lastUpdatedGitDB);
+            let changedRepos: gitRepos[] = gitResult.filter((repo: gitRepos) => repo.updated.valueOf() > lastUpdatedGitDB.valueOf());
             let updatedLangRepos: gitRepos[] = changedRepos.map( (repo: gitRepos) => {
                 getLangs(repo.language).then((res) => repo.language = res);
                 return repo;
