@@ -24,10 +24,9 @@ export function fetchGitRepo() {
             updated = headers["etag"]; //etag id
             limit = +headers["x-ratelimit-limit"];
             remaining = +headers["x-ratelimit-remaining"];
-            reset = new Date(headers["x-ratelimit-reset"]);
-            console.log(limit, remaining, updated, reset);
-            console.log(limit, remaining);
-            
+            reset = headers["x-ratelimit-reset"];
+            console.log(limit, remaining, updated, new Date(reset * 1000).toLocaleString());
+                        
             let data = response.data;
 
             let gitResult: gitRepos[] = data.map(record => {

@@ -1,18 +1,54 @@
-import { DataTypes, Model, Optional } from 'sequelize'
+import { BuildOptions, DataTypes, Model, Optional } from 'sequelize'
 import sequelizeConnection from '../config'
 import { gitRepos } from "../../Types/gitTypes";
 
+export class GHRepo extends Model<gitRepos> {
+  // name: string
+  // repo: string
+  // live: string
+  // updated: Date
+  // language: Text
+}
 
-class GHRepo extends Model<gitRepos> {}
-  
-  export default GHRepo.init(null, {
+  export default GHRepo.init({
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true
+    },
+    repo: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    live: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    updated: {
+      type: DataTypes.DATE,
+      allowNull: false,
+    },
+    language: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+    }
+  }, {
     sequelize: sequelizeConnection,
-    timestamps: true,
+    timestamps: true, // localized createdAt, updatedAt props
+    freezeTableName: true, // Model tableName will be the same as the model name
     paranoid: true
-  })
+  });
+
+  // GHRepo.beforeCreate(function(model, options) {
+        
+        // json stringify languages array
+  // })
   
 
 
+/*
+        Mongoose Example
+*/
 // import mongoose, { Schema } from "mongoose"; 
 // import config from "../config";
 // import "colors";
