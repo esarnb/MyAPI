@@ -6,11 +6,12 @@ import { gitRepos } from "../Types/gitTypes";
 dotenv.config();
 const au = "token " + process.env.gtoken;
 
-export function fetchGitRepo() {
+export async function fetchGitRepo() {
 
     let limit:Number = 5000, remaining: Number = limit, reset: number | Date = new Date(), updated: string = "";
-    let lastUpdatedGitDB: Date = getLastRepoUpdate()
-
+    let lastUpdatedGitDB: Date = await getLastRepoUpdate()
+    console.log(lastUpdatedGitDB);
+    
     const fetchData = async () => {
         if (remaining !== 5000 && remaining < 2) clearInterval(githubInterval);
         
@@ -41,7 +42,7 @@ export function fetchGitRepo() {
             });
             
             let changedRepos: gitRepos[] = gitResult.filter((repo: gitRepos) => {
-                console.log(repo.updated > lastUpdatedGitDB, "repo update newer than lastDBUpdate");
+                console.log(lastUpdatedGitDB, repo.updated > lastUpdatedGitDB, "repo update newer than lastDBUpdate");
                 return repo.updated > lastUpdatedGitDB
             });
 
@@ -89,7 +90,11 @@ async function getLangs(langURL: string[]): Promise<string[]> {
     });  
 }
 
-function getLastRepoUpdate(): Date {
-    // GHRepo.findBy
-    return new Date();
-}
+async function getLastRepoUpdate(): Promise<Date> {
+    let res: any = await GHRepo.findAll()
+    if (!res.length) return new Date("1/1/1970")
+    else {
+        res.sort((x: any, y: any) => x.updated - y.updated);
+        return res[0].updated;
+    }
+};

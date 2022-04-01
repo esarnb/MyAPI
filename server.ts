@@ -11,7 +11,8 @@ import { fetchGitRepo } from "./Scripts/fetchGitRepo";
 sequelizeInit();
 
 // execute scripts
-fetchGitRepo();
+// fetchGitRepo()
+(async () => await fetchGitRepo())();
 
 // initializing express and middleware
 const PORT = 4242;
