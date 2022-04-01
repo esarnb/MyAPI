@@ -68,7 +68,7 @@ async function getLangs(langURL: string[]): Promise<string[]> {
         try {
             let response = await axios.get(langURL[0], { headers: { Authorization: au } });
             let data = response.data;
-            if (!data) console.error("lang fetch failed", langURL, langURL[0])
+            console.log("lang fetch failed", langURL, langURL[0], data)
             let filtered: string[] = data.map( (x: string[]) => Object.keys(x) );
             console.log(filtered);
             resolve(filtered);
