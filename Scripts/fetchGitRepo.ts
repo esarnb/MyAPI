@@ -9,7 +9,6 @@ const au = "token " + process.env.gtoken;
 export async function fetchGitRepo() {
 
     let limit:Number = 5000, remaining: Number = limit, reset: number | Date = new Date(), updated: string = "";
-    let lastUpdatedGitDB: Date = await getLastRepoUpdate()
     
     const fetchData = async () => {
         if (remaining !== 5000 && remaining < 2) clearInterval(githubInterval);
@@ -38,7 +37,8 @@ export async function fetchGitRepo() {
                     language: [record.languages_url]
                 }
             });
-            
+        
+            let lastUpdatedGitDB: Date = await getLastRepoUpdate();    
             let changedRepos: gitRepos[] = gitResult.filter((repo: gitRepos) => {
                 return repo.updated > lastUpdatedGitDB
             });
@@ -75,7 +75,7 @@ async function getLangs(langURL: string[]): Promise<string[]> {
 
 async function getLastRepoUpdate(): Promise<Date> {
     let res: any = await GHRepo.findAll()
-    if (!res.length) return new Date("1/1/1970")
+    if (!res.length) return new Date(0)
     else {
         res.sort((x: any, y: any) => y.updated - x.updated);
         return res[0].updated;
