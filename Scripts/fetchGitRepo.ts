@@ -45,7 +45,7 @@ export function fetchGitRepo() {
                 return repo.updated > lastUpdatedGitDB
             });
             let updatedLangRepos: gitRepos[] = changedRepos.map( (repo: gitRepos) => {
-                getLangs(repo.language).then((res) => repo.language = res);
+                getLangs(repo.language).then((res) => Object.assign(repo).language = res);
                 return repo;
             });
             console.log(updatedLangRepos);
