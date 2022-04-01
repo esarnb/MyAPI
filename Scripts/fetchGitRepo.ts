@@ -45,7 +45,8 @@ export function fetchGitRepo() {
                 getLangs(repo.language).then((res) => repo.language = res);
                 return repo;
             });
-
+            console.log(changedRepos.length, updatedLangRepos.length);
+            
             lastUpdatedGitDB = new Date();
             updateGitDB(updatedLangRepos);
             
