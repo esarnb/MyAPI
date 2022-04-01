@@ -8,9 +8,10 @@ const au = "token " + process.env.gtoken;
 export function fetchGitRepo() {
 
     let limit:Number = 5000, remaining: Number = limit, reset: number | Date = new Date(), updated: string = "";
+    let lastUpdatedGitDB: Date = new Date();
 
     const fetchData = async () => {
-        if (remaining && remaining < 2) clearInterval(githubInterval);
+        if (remaining !== 5000 && remaining < 2) clearInterval(githubInterval);
         
         try {
             let response = await axios.get("https://api.github.com/users/esarnb/repos?per_page=100", {
@@ -28,7 +29,6 @@ export function fetchGitRepo() {
             console.log(limit, remaining, updated, new Date(1000 * reset).toLocaleString());
                         
             let data = response.data;
-
             let gitResult: gitRepos[] = data.map((record: any) => {
                 return {
                     name: record.name, 
@@ -38,8 +38,9 @@ export function fetchGitRepo() {
                     language: [record.language]
                 }
             });
-
-            updateGitDB(gitResult);
+            let filtered = gitResult.filter((repo: gitRepos) => repo.updated > lastUpdatedGitDB)
+            lastUpdatedGitDB = new Date();
+            updateGitDB(filtered);
             
             // setup auto refresh
         } catch (err: any) {
