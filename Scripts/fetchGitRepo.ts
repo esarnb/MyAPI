@@ -78,7 +78,7 @@ async function getLastRepoUpdate(): Promise<Date> {
     let res: any = await GHRepo.findAll()
     if (!res.length) return new Date("1/1/1970")
     else {
-        res.sort((x: any, y: any) => x.updated - y.updated);
+        res.sort((x: any, y: any) => y.updated - x.updated);
         return res[0].updated;
     }
 };
