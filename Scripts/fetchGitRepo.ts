@@ -48,7 +48,7 @@ export function fetchGitRepo() {
                 getLangs(repo.language).then((res) => repo.language = res);
                 return repo;
             });
-            console.log(changedRepos.length, updatedLangRepos.length);
+            console.log(updatedLangRepos);
             
             lastUpdatedGitDB = new Date();
             updateGitDB(updatedLangRepos);
@@ -68,10 +68,8 @@ async function getLangs(langURL: string[]): Promise<string[]> {
         try {
             let response = await axios.get(langURL[0], { headers: { Authorization: au } });
             let data = response.data;
-            console.log(data)
-            let filtered: string[] = Object.keys(data);
-            console.log(filtered);
-            resolve(filtered);
+            let languagesUsed: string[] = Object.keys(data);
+            resolve(languagesUsed);
         } catch (err: any) {
             console.error(err);
             reject(err);
