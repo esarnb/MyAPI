@@ -1,5 +1,6 @@
 import { Router } from "express";
 import dotenv from "dotenv";
+import { corsMiddle } from "../CORS/cors";
 
 dotenv.config();
 const router = Router();
@@ -8,15 +9,19 @@ router.get("", (req, res) => {
   res.send("Get /Main success")
 });
 
-router.post("", (req, res) => {
+/*
+    CORS SECURITY ENABLED
+*/
+
+router.post("", corsMiddle, (req, res) => {
   res.send("Post /Main success")
 });
 
-router.put("", (req, res) => {
+router.put("", corsMiddle, (req, res) => {
   res.send("Put /Main success")
 });
 
-router.delete("", (req, res) => {
+router.delete("", corsMiddle, (req, res) => {
   res.send("Delete /Main success")
 });
 

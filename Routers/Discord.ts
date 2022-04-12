@@ -5,7 +5,7 @@ dotenv.config();
 const router = Router();
 
 router.get("/", (req, res) => {
-  res.send("Get bot status");
+  res.send("Get user status and call bot status");
 })
 
 export default router;
