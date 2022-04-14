@@ -1,6 +1,7 @@
 import { Router } from "express"; // Express Router for grouping different pages
 //API Routers
 import GithubRouter from "./Github"; 
+import DiscordRouter from "./Discord";
 import CRUD from "./CRUD"; 
 // import DiscordRouter from "../Routers/Discord"; 
 
@@ -28,6 +29,6 @@ const router = Router();
 
 router.use("/", CRUD); 
 router.use("/github", GithubRouter); 
-// app.use("/discord", DiscordRouter); 
+router.use("/discord", DiscordRouter); 
 
 export default router;

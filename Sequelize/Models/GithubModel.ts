@@ -8,7 +8,7 @@ export default GHRepo.init({
   name: {
     type: DataTypes.STRING,
     allowNull: false,
-    unique: true
+    unique: 'column'
   },
   repo: {
     type: DataTypes.STRING,
