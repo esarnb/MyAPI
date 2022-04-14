@@ -71,8 +71,9 @@ router.get("/", async (req, res) => {
           authorization: `${oauthData.token_type} ${oauthData.access_token}`,
         },
       });
-
-      console.log(await userResult.data);
+      let userData = await userResult.data
+      console.log(userData);
+      res.json(userData);
     }
   } catch (error) {
     console.error(error);
