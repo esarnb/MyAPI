@@ -1,5 +1,5 @@
 import cors from "cors";
-const whitelist: string[] = ['http://localhost', 'https://esarnb.com', 'http://localhost:3434', 'http://localhost:4242', 'http://localhost:3000']
+const whitelist: string[] = ['http://localhost', 'https://esarnb.com', "https://api.esarnb.com"]
 const corsOptions: cors.CorsOptions | cors.CorsOptionsDelegate<cors.CorsRequest> = {
   origin: function (origin: any, callback: Function) {
     if (whitelist.indexOf(origin) !== -1) {

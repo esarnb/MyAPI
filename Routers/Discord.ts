@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { corsMiddle } from "../CORS/cors";
 import dotenv from "dotenv";
 import axios from "axios";
 
@@ -6,31 +7,24 @@ dotenv.config();
 const router = Router();
 const { webID, webSecret } = process.env;
 
-router.get("/test", (req, res) => {
-  res.send("Hi");
-})
-
-// router.get("/ac", (req, res) => {
-//   if (req.query.code) {
-//     let accessCode = `Access code: ${req.query.code}`;
-//     console.log(accessCode);
-//     return res.send(accessCode);
-//   }
-//   else res.status(401).send("Unauthorized");
-// })
-
-router.get("/", async (req, res) => {
-  const { code } = req.query;
+router.get("/", corsMiddle, async (req, res) => {
   let oauthData;
+
+  const { code } = req.query;
 	if (code) {
+    console.log("CODED", code);
+    
 		try {
+      /**
+       * Setup Discord Oauth2 Params
+       */
       let url = 'https://discord.com/api/oauth2/token';
       let params: any = {
         client_id: webID,
         client_secret: webSecret,
         code, // access token code from discord
         grant_type: 'authorization_code',
-        redirect_uri: `https://api.esarnb.com/discord`,
+        redirect_uri: `https://esarnb.com/discord`,
         scope: 'identify',
       }
 
@@ -40,11 +34,15 @@ router.get("/", async (req, res) => {
 				}
       }
 
+      /**
+       * Get Access Token Object from Discord Oauth2
+       */
       let data = new URLSearchParams(params);
 			const oauthResult = await axios.post(url, data, config)
 			oauthData = await oauthResult.data;
 			console.log(oauthData);
-      /*
+      /* Response
+        
         {
           "access_token": "an access token",
           "token_type": "Bearer",
@@ -52,32 +50,45 @@ router.get("/", async (req, res) => {
           "refresh_token": "a refresh token",
           "scope": "identify"
         }
+
       */
-
-      
-
+        
+      /**
+       * Get User Data Object from Discord Users Endpoint
+       */
+        if (oauthData) {
+          const userResult = await axios.get('https://discord.com/api/users/@me', {
+            headers: {
+              authorization: `${oauthData.token_type} ${oauthData.access_token}`,
+            },
+          });
+          let userData = await userResult.data
+          console.log(userData);
+          /* Response
+            
+            {
+              id: string,
+              username: string,
+              avatar: string,
+              discriminator: string,
+              public_flags: number,
+              flags: number,
+              banner: string,
+              banner_color: string,
+              accent_color: number,
+              locale: string,
+              mfa_enabled: boolean,
+              premium_type: number
+            }
+            
+          */
+          res.json(userData); // return user data to original requester
+        }
 		} catch (error) {
 			// NOTE: An unauthorized token will not throw an error;
 			// it will return a 401 Unauthorized response in the try block above
 			console.error(error);
 		}
 	}
-
-  try {
-    // TODO: Enable Sessions and associate oauthData.accessToken to user's session. 
-    if (oauthData) {
-      const userResult = await axios.get('https://discord.com/api/users/@me', {
-        headers: {
-          authorization: `${oauthData.token_type} ${oauthData.access_token}`,
-        },
-      });
-      let userData = await userResult.data
-      console.log(userData);
-      res.json(userData);
-    }
-  } catch (error) {
-    console.error(error);
-  }
 });
-
 export default router;
