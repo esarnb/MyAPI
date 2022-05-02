@@ -41,18 +41,7 @@ router.get("/", corsMiddle, async (req, res) => {
 			const oauthResult = await axios.post(url, data, config)
 			oauthData = await oauthResult.data;
 			console.log(oauthData);
-      /* Response
-        
-        {
-          "access_token": "an access token",
-          "token_type": "Bearer",
-          "expires_in": 604800,
-          "refresh_token": "a refresh token",
-          "scope": "identify"
-        }
-
-      */
-        
+      
       /**
        * Get User Data Object from Discord Users Endpoint
        */
@@ -64,33 +53,7 @@ router.get("/", corsMiddle, async (req, res) => {
           });
           let userData = await userResult.data
           console.log(userData);
-          /* Response
-            
-            {
-              id: string,
-              username: string,
-              avatar: string,
-              discriminator: string,
-              public_flags: number,
-              flags: number,
-              banner: string,
-              banner_color: string,
-              accent_color: number,
-              locale: string,
-              mfa_enabled: boolean,
-              premium_type: number
-            }
-
-            I want
-            {
-              id: null,
-              username: null,
-              avatar: null,
-              banner: null,
-              locale: null,
-            }
-
-          */
+          
           const { id, username, avatar, banner, locale } = userData;
           res.json( { id, username, avatar, banner, locale } ); // return user data to original requester
         }
@@ -102,3 +65,43 @@ router.get("/", corsMiddle, async (req, res) => {
 	}
 });
 export default router;
+
+/* Response for oauthurlEndpoint
+            
+  {
+    "access_token": "an access token",
+    "token_type": "Bearer",
+    "expires_in": 604800,
+    "refresh_token": "a refresh token",
+    "scope": "identify"
+  }
+
+*/
+
+/* Response from discord.com/api/users/@me
+  
+  {
+    id: string,
+    username: string,
+    avatar: string,
+    discriminator: string,
+    public_flags: number,
+    flags: number,
+    banner: string,
+    banner_color: string,
+    accent_color: number,
+    locale: string,
+    mfa_enabled: boolean,
+    premium_type: number
+  }
+
+  I want
+  {
+    id: null,
+    username: null,
+    avatar: null,
+    banner: null,
+    locale: null,
+  }
+
+*/
