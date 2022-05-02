@@ -80,9 +80,19 @@ router.get("/", corsMiddle, async (req, res) => {
               mfa_enabled: boolean,
               premium_type: number
             }
-            
+
+            I want
+            {
+              id: null,
+              username: null,
+              avatar: null,
+              banner: null,
+              locale: null,
+            }
+
           */
-          res.json(userData); // return user data to original requester
+          const { id, username, avatar, banner, locale } = userData;
+          res.json( { id, username, avatar, banner, locale } ); // return user data to original requester
         }
 		} catch (error) {
 			// NOTE: An unauthorized token will not throw an error;
