@@ -7,7 +7,7 @@ dotenv.config();
 const router = Router();
 const { webID, webSecret } = process.env;
 
-router.get("/", corsMiddle, async (req, res) => {
+router.get("/", async (req, res) => {
   let oauthData;
 
   const { code } = req.query;

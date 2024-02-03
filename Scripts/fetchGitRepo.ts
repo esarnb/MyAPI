@@ -8,7 +8,7 @@ const au = "token " + process.env.gtoken;
 
 export async function fetchGitRepo() {
 
-    let limit:Number = 5000, remaining: Number = limit, reset: number | Date = new Date(), updated: string = "";
+    let limit:number = 5000, remaining: number = limit, reset: number | Date = new Date(), updated: string = "";
     
     const fetchData = async () => {
         if (remaining !== 5000 && remaining < 2) clearInterval(githubInterval);
@@ -52,7 +52,8 @@ export async function fetchGitRepo() {
             lastUpdatedGitDB = new Date();
             updateGitDB(updatedLangRepos);
         } catch (err: any) {
-            console.error(err.message.includes("status code 304") ? "Unchanged Response" : err); // 304 etag unchanged
+            // 304 => ETAG unchanged, ignored
+            if (!err.message.includes("status code 304")) console.error(err);
         }
     }
 

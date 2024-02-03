@@ -2,11 +2,19 @@ import { Router } from "express"; // Express Router for grouping different pages
 //API Routers
 import GithubRouter from "./Github"; 
 import DiscordRouter from "./Discord";
-import CRUD from "./CRUD"; 
+import MCRouter from "./MC";
+import CRUD from "./CRUD";
 // import DiscordRouter from "../Routers/Discord"; 
 
 // const app = express();
 const router = Router();
+
+router.use("/", CRUD); 
+router.use("/github", GithubRouter); 
+router.use("/discord", DiscordRouter); 
+router.use("/mc", MCRouter);
+
+export default router;
 
 // router.use(function (req, res, next) {
 
@@ -26,9 +34,3 @@ const router = Router();
 //     // Pass to next layer of middleware
 //     next();
 // });
-
-router.use("/", CRUD); 
-router.use("/github", GithubRouter); 
-router.use("/discord", DiscordRouter); 
-
-export default router;
