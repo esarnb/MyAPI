@@ -9,6 +9,15 @@ import CRUD from "./CRUD";
 // const app = express();
 const router = Router();
 
+/* Dev middleware
+
+router.all('*', function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    next();
+ });
+
+*/
+
 router.use("/", CRUD); 
 router.use("/github", GithubRouter); 
 router.use("/discord", DiscordRouter); 

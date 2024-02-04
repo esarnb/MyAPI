@@ -5,8 +5,8 @@ import { corsMiddle } from "../CORS/cors";
 dotenv.config();
 const router = Router();
 
-router.get("", (req, res) => {
-  res.send("Get /Main success")
+router.get("/", corsMiddle, (req, res) => {
+  res.send("I exist.")
 });
 
 /*
